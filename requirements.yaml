@@ -1,0 +1,61 @@
+base:
+    root: d:\dev
+    cache: d:\dev\.cache
+
+programs:
+    - name: python
+      version: latest
+      os: amd64
+      ext: exe
+      url: https://www.python.org
+      latest_version_page: /download/windows
+      latest_version_re: "Latest Python 3 Release - Python (3\\.\\d+.\\d)"
+      download_url: "{url}/ftp/{name}/{version}/{name}-{version}-{os}.{ext}"
+
+      installer_params:
+        - /quiet
+        - InstallAllUsers=0  # 是否进行系统范围的安装
+        - TargetDir=""  # 安装目录
+        - DefaultAllUsersTargetDir=""  # 所有用户安装的默认目录
+        - DefaultJustForMeTargetDir={base.root}/{name}/{name}-{version}  # 仅供当前用户安装的默认目录
+        - DefaultCustomTargetDir=""  # UI中显示的默认自定义安装目录
+        - AssociateFiles=0  # 是否关联文件类型
+        - CompileAll=0  # 是否编译所有的.py文件为.pyc文件
+        - PrependPath=0  # 是否将安装目录和Scripts目录添加到PATH环境变量的最前面，并添加.PY到PATHEXT环境变量中
+        - AppendPath=0  # 是否将安装目录和Scripts目录添加到PATH环境变量的最后面，并添加.PY到PATHEXT环境变量中
+        - Shortcuts=1  # 是否创建解释器、文档和IDLE的快捷方式
+        - Include_doc=0  # 是否安装Python文档
+        - Include_debug=0  # 是否安装调试二进制文件
+        - Include_dev=1  # 是否安装开发人员头文件和库，省略此项可能导致无法使用的安装
+        - Include_exe=1  # 是否安装python.exe和相关文件，省略此项可能导致无法使用的安装
+        - Include_launcher=0  # 是否安装Python Launcher for Windows
+        - InstallLauncherAllUsers=0  # 是否为所有用户安装启动器，同时需要设置Include_launcher为1
+        - Include_lib=1  # 是否安装标准库和扩展模块，省略此项可能导致无法使用的安装
+        - Include_pip=1  # 是否安装捆绑的pip和setuptools
+        - Include_symbols=0  # 是否安装调试符号文件（*.pdb）
+        - Include_tcltk=0  # 是否安装Tcl/Tk支持和IDLE
+        - Include_test=0  # 是否安装标准库测试套件
+        - Include_tools=0  # 是否安装实用工具脚本
+        - LauncherOnly=0  # 是否仅安装启动器，这将覆盖大部分其他选项
+        - SimpleInstall=1  # 是否禁用大部分安装界面
+        - SimpleInstallDescription="simple quiet install"  # 简化安装界面使用时显示的自定义消息
+
+    - name: pycharm-professional
+      version: "2020.1"
+      ext: exe
+      url: https://www.jetbrains.com.cn/pycharm
+      download_url: https://download.jetbrains.com/python/{name}-{version}.{ext}
+      latest_version_page: /download/?section=windows
+      silent_config:
+        - launcher32=0
+        - launcher64=1
+        - updatePATH=1
+        - updateContextMenu=1
+        - jre32=0
+        - regenerationSharedArchive=1
+        - .py=1
+
+      installer_params:
+        - /S
+        - /CONFIG=d:\dev\.cache\silent_config
+        - /D=d:\dev\PyCharm
